@@ -59,7 +59,7 @@ axs[1, 2].plot(density_list_SnO2, Distortion_time_1, label="SnO$_2$", color="lim
 
 # ===== Iterating the Others =====
 
-colors = ["darkred", "black", "red", "gold", "darkorange", "blueviolet", "dodgerblue", "darkblue"]
+colors = ["darkred", "#1f77b4", "red", "darkorange", "gold", "blueviolet", "darkblue", "dodgerblue"]
 
 
 # Function to plot the data

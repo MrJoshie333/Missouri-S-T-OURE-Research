@@ -2,14 +2,14 @@
 # ===== Joshua Santy =====
 from matplotlib import pyplot as plt
 
-from misc.utility import read_dat_file_to_lists
+from utility import read_dat_file_to_lists
 
 energy, IPR, a, b, c, d = read_dat_file_to_lists("IPRcontr_HSE.dat")
-
+plt.figure(figsize=(7, 5))
 plt.scatter(energy, IPR, s=25, alpha=0.25, label='4.25')
 
 plt.title('IPR of Amorphous SrSnO', fontsize=32)
-plt.xlabel('Energy (ev)', fontsize=24)
+plt.xlabel('Energy (eV)', fontsize=24)
 plt.ylabel('IPR', fontsize=24)
 plt.legend(loc='upper right', fontsize=24)
 

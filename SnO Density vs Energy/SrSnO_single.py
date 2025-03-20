@@ -12,7 +12,7 @@ SAVEPDF = False
 
 # ===== Initialization =====
 
-plt.figure(figsize=(10, 6))
+plt.figure(figsize=(5, 3))
 
 average_values = []
 density_values = []
@@ -40,12 +40,13 @@ for density in densities:
 
 plt.plot(density_values, average_values, marker='o', color='r', label="Average", linestyle='-', linewidth=2)
 
-plt.title("Energy vs. Density for SrSnO")
+plt.title("Energy vs. Density , A-SrSnO")
 plt.xlabel(r'Density, g/$cm^3$')
 plt.ylabel(r'$\mathrm{ΔE, meV/atom}$')
 plt.legend(title="Density", loc='upper left')
 plt.grid(True, alpha=0.25)
-
+for spine in plt.gca().spines.values():
+    spine.set_linewidth(1.8)
 plt.tight_layout()
 plt.show()
 

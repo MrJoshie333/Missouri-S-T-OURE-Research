@@ -1,8 +1,10 @@
 import matplotlib.pyplot as plt
 import numpy as np
+from utility import filenameToLatex
 
 # ===== Setup =====
-colors = ["red", "darkorange", "blueviolet", "dodgerblue", "darkblue", "limegreen"]
+# '#1f77b4' is the defualt matplotlib blue color
+colors = ["limegreen", "darkred", '#1f77b4', "blueviolet", "darkblue", "dodgerblue"]
 #Save the Figure as a PDF?
 SAVEPDF = False
 
@@ -35,22 +37,23 @@ def process_file(file_path):
 # ===== Plotting =====
 def plot_data(axs, density_list, metrics, label, color):
     (ECN, ECN_time, L_ave, L_ave_time, Distortion, Distortion_time) = metrics
-    axs[0, 0].plot(density_list, ECN, label=label, color=color)
-    axs[1, 0].plot(density_list, ECN_time, label=label, color=color)
-    axs[0, 1].plot(density_list, L_ave, label=label, color=color)
-    axs[1, 1].plot(density_list, L_ave_time, label=label, color=color)
-    axs[0, 2].plot(density_list, Distortion, label=label, color=color)
-    axs[1, 2].plot(density_list, Distortion_time, label=label, color=color)
+    axs[0, 0].plot(density_list, ECN, label=filenameToLatex(label), color=color)
+    axs[1, 0].plot(density_list, ECN_time,  label=filenameToLatex(label), color=color)
+    axs[0, 1].plot(density_list, L_ave,  label=filenameToLatex(label), color=color)
+    axs[1, 1].plot(density_list, L_ave_time,  label=filenameToLatex(label), color=color)
+    axs[0, 2].plot(density_list, Distortion,  label=filenameToLatex(label), color=color)
+    axs[1, 2].plot(density_list, Distortion_time,  label=filenameToLatex(label), color=color)
 
 
 # ===== File Paths and Plotting =====
 files_and_labels = [
+    ("Data/ECN_O-Sn_SnO2_average.dat", "SnO2"),
     ("Data/ECN_O-SN_SnO_average.dat", "SnO"),
     ("Data/ECN_O-Ta_Ta2O5_average.dat", "Ta2O5"),
-    ("Data/ECN_O-M_Ta2Sn3O8_average.dat", "O-M: Ta2Sn3O8"),
     ("Data/ECN_O-M_Ta2Sn10O15_average.dat", "O-M: Ta2Sn10O15"),
-    ("Data/ECN_O-M_Ta2SnO6_average.dat", "O-M: Ta2SnO6"),
-    ("Data/ECN_O-Sn_SnO2_average.dat", "SnO2")
+    ("Data/ECN_O-M_Ta2Sn3O8_average.dat", "O-M: Ta2Sn3O8"),
+    ("Data/ECN_O-M_Ta2SnO6_average.dat", "O-M: Ta2SnO6")
+
 ]
 
 for idx, (file_path, label) in enumerate(files_and_labels):

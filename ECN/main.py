@@ -58,6 +58,8 @@ axs[1, 2].plot(density_list, Distortion_time, label="SnO", color="darkred")
 '''---------------------- Data And Plotting for the other 3  ----------------------'''
 file_names = ["Data/ECN_Ta2Sn10O15_average.dat", "Data/ECN_Ta2SnO6_average.dat", "Data/ECN_Ta2Sn3O8_average.dat"]
 for a in file_names:
+    cleanName = a.replace("Data/ECN_", "")
+    cleanName = cleanName.replace("_average.dat", "")
     Sn = []
     Ta = []
     with open(a) as f:
@@ -124,7 +126,7 @@ for a in file_names:
         i = float(i)
         density_list_Ta.append(i)
 
-    a = filenameToLatex(a)  # Label
+    a = filenameToLatex(cleanName)  # Label
 
     axs[0, 0].plot(density_list_Sn, ECN_Sn, label=f'Sn-O:{a}', color=warm_color[iteration])
     axs[1, 0].plot(density_list_Sn, ECN_time_Sn, label=f'Sn:{a}', color=warm_color[iteration])
