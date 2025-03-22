@@ -6,7 +6,7 @@ from utility import read_dat_file_to_lists
 
 energy, IPR, a, b, c, d = read_dat_file_to_lists("IPRcontr_HSE.dat")
 plt.figure(figsize=(7, 5))
-plt.scatter(energy, IPR, s=25, alpha=0.40, color = "lawngreen", label=r'$4.25 \, \mathrm{g/cm}^3$', zorder=2)
+plt.scatter(energy, IPR, s=25, alpha=0.75, color = "gray", label=r'$4.25 \, \mathrm{g/cm}^3$', zorder=2)
 
 plt.title('a-SrSnO IPR', fontsize=32)
 plt.xlabel('Energy (eV)', fontsize=24)
@@ -15,9 +15,10 @@ plt.legend(loc='upper right', fontsize=18)
 
 plt.tick_params(axis='both', which='major', labelsize=18)
 plt.xlim(-6, 4)
-plt.grid(True, alpha=0.35, zorder=1)
+# plt.grid(True, alpha=0.35, zorder=1)
 plt.subplots_adjust(
-    left=0.15,
-    bottom=0.15
+    left=0.23,
+    bottom=0.15,
+    right = 
 )
 plt.show()

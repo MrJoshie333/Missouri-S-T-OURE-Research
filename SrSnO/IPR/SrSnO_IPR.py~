@@ -6,7 +6,7 @@ from utility import read_dat_file_to_lists
 
 energy, IPR, a, b, c, d = read_dat_file_to_lists("IPRcontr_HSE.dat")
 plt.figure(figsize=(7, 5))
-plt.scatter(energy, IPR, s=25, alpha=0.40, color = "lawngreen", label=r'$4.25 \, \mathrm{g/cm}^3$', zorder=2)
+plt.scatter(energy, IPR, s=25, alpha=0.35, color = "lawngreen", label=r'$4.25 \, \mathrm{g/cm}^3$', zorder=2)
 
 plt.title('a-SrSnO IPR', fontsize=32)
 plt.xlabel('Energy (eV)', fontsize=24)
