@@ -120,7 +120,7 @@ fig = plt.gcf()  # Get the current figure
 fig.set_size_inches(6, 3.5)  # Resize without making a new figure
 
 
-plt.title("a-SrSnO Energy vs. Density", fontsize = 19)
+plt.title("a-SrSnO Energy vs. Density", fontsize = 20)
 plt.xlabel(r'$\mathrm{Density, g/cm}^3$', fontsize = 17)
 plt.ylabel(r'$\mathrm{ΔE, meV/atom}$', fontsize = 17)
 plt.legend(title="Composition", loc='upper left', handles=legend_entry)

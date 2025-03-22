@@ -1,0 +1,239 @@
+import matplotlib.pyplot as plt
+import numpy as np
+import matplotlib.ticker as ticker
+from matplotlib.widgets import Slider
+
+from utility import filenameToLatex
+
+# ===== Setup =====
+# Save the Figure as a PDF?
+SAVEPDF = False
+num_atoms = 69
+fig, axs = plt.subplots(2, 1, figsize=(5, 5))
+
+
+def get_density(density_list, orig_density):
+    for i in orig_density:
+        i = i.split("_")
+        i = i[1]
+        i = i.replace("d", "")
+        i = i.replace("p", ".")
+        i = float(i)
+        density_list.append(i)
+    return(density_list)
+
+
+'''---------------------- Data And Plotting for SnO ----------------------'''
+with open("../Data/ECN_Sn-O_average.dat") as f:
+    next(f)  # skips header line
+    data_1 = f.readlines()
+iteration = 0
+warm_color = ["red", "gold", "darkorange"]
+cool_color = ["blueviolet", "dodgerblue", "darkblue"]
+orig_density = []
+ECN = []
+rowData = []
+
+for i in data_1:
+    rowData = i.split(" ")
+    orig_density.append(rowData[0])
+    ECN.append(float(rowData[2]))
+'''Getting Density'''
+density_list = []
+density_list = get_density(density_list, orig_density)
+
+
+axs[0].plot(density_list, ECN, label="SnO", color="darkred")
+
+
+'''---------------------- Data And Plotting for the other 3  ----------------------'''
+file_names = ["../Data/ECN_Ta2Sn10O15_average.dat", "../Data/ECN_Ta2SnO6_average.dat", "../Data/ECN_Ta2Sn3O8_average.dat"]
+for a in file_names:
+    cleanName = a.replace("../Data/ECN_", "")
+    cleanName = cleanName.replace("_average.dat", "")
+    Sn = []
+    Ta = []
+    with open(a) as f:
+        for count, line in enumerate(f, start=0):
+            if count % 2 == 0:
+                Sn.append(line)
+            else:
+                Ta.append(line)
+    '''Getting Density'''
+    orig_density_Sn = []
+    ECN_Sn = []
+    rowData_Sn = []
+
+    orig_density_Ta = []
+    ECN_Ta = []
+    rowData_Ta = []
+
+    for i in Sn:
+        rowData = i.split(" ")
+        orig_density_Sn.append(rowData[0])
+        ECN_Sn.append(float(rowData[2]))
+
+    for j in Ta:
+        if len(j) > 2:
+            rowData_Ta = j.split(" ")
+            orig_density_Ta.append(rowData_Ta[0])
+            ECN_Ta.append(float(rowData_Ta[2]))
+
+    density_list_Sn = []
+    density_list_Sn = get_density(density_list_Sn, orig_density_Sn)
+
+    density_list_Ta = []
+    density_list_Ta = get_density(density_list_Ta, orig_density_Ta)
+
+    a = filenameToLatex(cleanName)  # Label
+
+    axs[0].plot(density_list_Sn, ECN_Sn, label=f'Sn-O:{a}', color=warm_color[iteration])
+    axs[0].plot(density_list_Ta, ECN_Ta, label=f'Ta-O:{a}', color=cool_color[iteration])
+    iteration += 1
+
+'''SnO2:----------------'''
+with open("../Data/ECN_Sn-O2_average.dat") as f:
+    data_2 = f.readlines()
+orig_density_1 = []
+ECN_1 = []
+rowData_1 = []
+
+for i in data_2:
+    rowData_1 = i.split(" ")
+    orig_density_1.append(rowData_1[0])
+    ECN_1.append(float(rowData_1[2]))
+
+'''Getting Density'''
+density_list_SnO2 = []
+density_list_SnO2 = get_density(density_list_SnO2, orig_density_1)
+
+axs[0].plot(density_list_SnO2, ECN_1, label=r'$\mathrm{SnO_2}$', color="limegreen")
+
+
+'''Ta-O -----------'''
+with open("../Data/ECN_Ta-O_average.dat") as f:
+    data_3 = f.readlines()
+orig_density_2 = []
+ECN_2 = []
+rowData_2 = []
+
+for i in data_3:
+    rowData_2 = i.split(" ")
+    orig_density_2.append(rowData_2[0])
+    ECN_2.append(float(rowData_2[2]))
+
+'''Getting Density'''
+density_list_Ta_O = []
+density_list_Ta_O = get_density(density_list_Ta_O, orig_density_2)
+axs[0].plot(density_list_Ta_O, ECN_2, label=r'$\mathrm{Ta_2O_5}$')
+axs[1].set_xlabel(r'$\mathrm{Density, g/cm}^3$', fontsize=15)
+axs[0].set_ylabel("M-O ECN", fontsize=14, labelpad=10)
+axs[1].set_ylabel("O-M ECN", fontsize=14, labelpad=10)
+
+
+plt.subplots_adjust(
+    # left=0.1,
+    # bottom=0.1,
+    # right=0.9,
+    top=0.841,
+    wspace=0.425,
+    hspace=0.0)
+
+'''Sorting the labels in the legend'''
+handles, labels = axs[0].get_legend_handles_labels()
+# print(labels)
+handles = [handles[7], handles[0], handles[8], handles[1], handles[5], handles[3], handles[2], handles[6], handles[4]]
+labels = [labels[7], labels[0], labels[8], labels[1], labels[5], labels[3], labels[2], labels[6], labels[4]]
+# print(labels)
+
+legend = axs[0].legend(handles, labels, prop={'size': 10}, bbox_to_anchor=(1, 1),
+                 ncol=1, fancybox=True, shadow=True, fontsize='large')
+legend.set_zorder(10000)
+
+for a in axs.flat:
+    a.grid(True, alpha=0.25)
+    a.tick_params(axis='x', labelsize=11)
+    a.tick_params(axis='y', labelsize=11)
+
+colors = ["limegreen", "darkred", '#1f77b4', "blueviolet", "darkblue", "dodgerblue"]
+
+#===== Oxygen =====
+# ===== Converts raw density strings to float values =====
+def process_density(orig_density):
+    return [float(i.split("_")[1].replace("d", "").replace("p", ".")) for i in orig_density]
+
+# ===== Data Processing =====
+def process_file(file_path):
+    with open(file_path) as f:
+        data = f.readlines()
+
+    orig_density, ECN,  = [], []
+    for row in data:
+        row_data = row.split(" ")
+        orig_density.append(row_data[0])
+        ECN.append(float(row_data[1]))
+
+    density_list = process_density(orig_density)
+    return density_list, ECN
+
+# ===== Plotting =====
+def plot_data(ax, density_list, ECN, label, color):
+    ax.plot(density_list, ECN, label=filenameToLatex(label), color=color)
+
+
+# ===== File Paths and Plotting =====
+files_and_labels = [
+    ("../../ECN_Oxygen/Data/ECN_O-Sn_SnO2_average.dat", "SnO2"),
+    ("../../ECN_Oxygen/Data/ECN_O-SN_SnO_average.dat", "SnO"),
+    ("../../ECN_Oxygen/Data/ECN_O-Ta_Ta2O5_average.dat", "Ta2O5"),
+    ("../../ECN_Oxygen/Data/ECN_O-M_Ta2Sn10O15_average.dat", "O-M: Ta2Sn10O15"),
+    ("../../ECN_Oxygen/Data/ECN_O-M_Ta2Sn3O8_average.dat", "O-M: Ta2Sn3O8"),
+    ("../../ECN_Oxygen/Data/ECN_O-M_Ta2SnO6_average.dat", "O-M: Ta2SnO6")
+
+]
+
+for idx, (file_path, label) in enumerate(files_and_labels):
+    density_list, ECN = process_file(file_path)  # Fix unpacking
+    plot_data(axs[1], density_list, ECN, label, colors[idx])  # Pass ECN directly
+
+# ===== Legend and Labels =====
+handles, labels = axs[1].get_legend_handles_labels()
+handles, labels = handles[:5] + handles[5:], labels[:5] + labels[5:]
+legend1 = axs[1].legend(
+    handles,
+    labels,
+    prop={"size": 10},
+    bbox_to_anchor=(1, 0.8),
+    ncol=1,
+    fancybox=True,
+    shadow=True,
+    fontsize="large",
+)
+axs[0].set_box_aspect(1)
+axs[1].set_box_aspect(1)
+# axs[1].set
+axs[1].set_yticks([2.0, 2.2, 2.4, 2.6, 2.8])
+#
+# #Useful way to easily get bbox position
+# ax_x = plt.axes([0.25, 0.02, 0.65, 0.03])  # X-position slider
+# ax_y = plt.axes([0.25, 0.06, 0.65, 0.03])  # Y-position slider
+#
+# slider_x = Slider(ax_x, "BBox X", 0.0, 1.0, valinit=0.2)
+# slider_y = Slider(ax_y, "BBox Y", 0.0, 1.0, valinit=0.75)
+#
+# # Update function
+# def update(val):
+#     x = slider_x.val
+#     y = slider_y.val
+#     legend1.set_bbox_to_anchor((x, y))
+#     fig.canvas.draw_idle()
+#
+# # Connect sliders to update function
+# slider_x.on_changed(update)
+# slider_y.on_changed(update)
+
+plt.show()
+if SAVEPDF == True:
+    plt.savefig('ECN.pdf')
+
+

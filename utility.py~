@@ -72,25 +72,3 @@ def extract_density(input_string: str) -> float:
     else:
         print(f"Warning: '{input_string}' does not contain a valid density pattern.")
         return None  # Return None if the pattern is not found
-
-
-#####################################################
-#Useful way to do bboxes with sliders
-# ax_x = plt.axes([0.25, 0.02, 0.65, 0.03])  # X-position slider
-# ax_y = plt.axes([0.25, 0.06, 0.65, 0.03])  # Y-position slider
-#
-# slider_x = Slider(ax_x, "BBox X", 0.0, 1.0, valinit=0.2)
-# slider_y = Slider(ax_y, "BBox Y", 0.0, 1.0, valinit=0.75)
-#
-# # Update function
-# def update(val):
-#     x = slider_x.val
-#     y = slider_y.val
-#     legend.set_bbox_to_anchor((x, y))
-#     fig.canvas.draw_idle()
-#
-# # Connect sliders to update function
-# slider_x.on_changed(update)
-# slider_y.on_changed(update)
-
-###################################################
