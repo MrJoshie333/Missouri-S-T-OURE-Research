@@ -2,7 +2,7 @@
 <module version="4">
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$" />
-    <orderEntry type="jdk" jdkName="Pipenv (Missouri-S-T-OURE-Research)" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Pipenv (OURE Research)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
 </module>

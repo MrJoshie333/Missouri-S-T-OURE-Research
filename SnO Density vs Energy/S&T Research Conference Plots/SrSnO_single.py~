@@ -1,23 +1,22 @@
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.lines import Line2D
+from matplotlib.widgets import Slider
 
 # ===== User Input =====
 DEST_DIR = '../SrSnO'
 
-# List of directory names (the last four characters are the density)
 densities = ["6p27", "5p74", "5p27", "4p85", "4p47", "4p13", "3p82"]
 num_atoms = [138, 134]
 color = ["orange", "green"]
 k = 0
-# Save the Figure as a PDF?
 SAVEPDF = False
 
 # ===== Initialization =====
-file_names = ["../Data/SnO_av_etot300K_density_runs_1.dat", "../Data/Ta2SnO6_av_etot300K_density_runs.dat"]
+file_names = ["../Data/SnO_av_etot300K_density_runs_1.dat",
+              "../Data/Ta2Sn10O15_av_etot300K_density_runs.dat"]
 
-plt.figure(figsize=(5, 3))
-
+fig, ax = plt.subplots(figsize=(5, 3))
 average_values = []
 density_values = []
 
@@ -40,10 +39,10 @@ for density in densities:
     avg_scaled_data = np.mean(scaled_data)
     average_values.append(avg_scaled_data)
     density_values.append(float(density.replace('p', '.')))
-    plt.scatter([density_values[-1]] * len(scaled_data), scaled_data, color = "lightblue", alpha=0.4)
 
-plt.plot(density_values, average_values, color='black', linestyle='-', linewidth=3, alpha=1, zorder=2)  # Line
-plt.scatter(density_values, average_values, color='red', label="Average", zorder=2)  # Points
+ax.plot(density_values, average_values, color='black', linestyle='-', linewidth=3, alpha=1, zorder=2)
+ax.scatter(density_values, average_values, color='firebrick', label="Average", zorder=2)
+
 for a in file_names:
     with open(a) as f:
         data = f.readlines()
@@ -65,10 +64,8 @@ for a in file_names:
 
     # ===== Turning Density into Float ======
     for i in orig_density:
-        i = i.split("_")
-        i = i[1]
-        i = i.replace("d", "")
-        i = i.replace("p", ".")
+        i = i.split("_")[1]
+        i = i.replace("d", "").replace("p", ".")
         i = float(i)
         density_list.append(i)
 
@@ -91,47 +88,71 @@ for a in file_names:
 
     # ===== Energy Values: Getting correct scale and dividing by number of atoms
     for i in range(len(energies)):
-        energies[i] -= smallest  # 765.2191713
+        energies[i] -= smallest
         energies[i] /= num_atoms[k]
 
     for i in range(len(average_array)):
         average_array[i] -= smallest
         average_array[i] /= num_atoms[k]
 
-    # meV Units
+    # Convert to meV Units
     for i in range(len(energies)):
         energies[i] *= 1000
     for i in range(len(average_array)):
         average_array[i] *= 1000
 
-    # plt.scatter(density_list, energies, color="orange", marker=".")
-    # ax[row, col].scatter(temp1, average_array, color="deepskyblue")
-    plt.scatter(temp1, average_array, color=color[k], alpha = 0.5)
-    plt.plot(temp1, average_array, color="black", linestyle="dashed", alpha = 0.5, zorder=1)
+    ax.scatter(temp1, average_array, color=color[k], alpha=0.5)
+    ax.plot(temp1, average_array, color="black", linestyle="dashed", alpha=0.5, zorder=1)
     k += 1
 
-
 legend_entry = [
-    Line2D([0], [0], color='black', linestyle='-', linewidth=3, marker='o', markersize=8, markerfacecolor='firebrick', label="SrSnO"),
-    Line2D([0], [0], color='black', linestyle='-', linewidth=3, marker='o', markersize=8, markerfacecolor='orange', label='SnO'),
-    Line2D([0], [0], color='black', linestyle='-', linewidth=3, marker='o', markersize=8, markerfacecolor='green', label=r'$\mathrm{Ta_{2}SnO_{6}}$')
+    Line2D([0], [0], color='black', linestyle='-', linewidth=3, marker='o', markersize=8, markerfacecolor='firebrick',
+           label=r'$\mathrm{Sr_{7}Sn_{62}O_{69}}$'),
+    Line2D([0], [0], color='black', linestyle='-', linewidth=3, marker='o', markersize=8, markerfacecolor='orange',
+           label='SnO'),
+    Line2D([0], [0], color='black', linestyle='-', linewidth=3, marker='o', markersize=8, markerfacecolor='green',
+           label=r'$\mathrm{Ta_{2}Sn_{10}O_{15}}$')
 ]
-fig = plt.gcf()  # Get the current figure
-fig.set_size_inches(6, 3.5)  # Resize without making a new figure
 
+fig = plt.gcf()
+fig.set_size_inches(6, 3.5)
 
-plt.title("a-SrSnO Energy vs. Density", fontsize = 20)
-plt.xlabel(r'$\mathrm{Density, g/cm}^3$', fontsize = 17)
-plt.ylabel(r'$\mathrm{ΔE, meV/atom}$', fontsize = 17)
-plt.legend(title="Composition", loc='upper left', handles=legend_entry)
-plt.grid(True, alpha=0.25)
-for spine in plt.gca().spines.values():
+ax.set_title("a-SrSnO Energy vs. Density", fontsize=19)
+ax.set_xlabel(r'$\mathrm{Density, g/cm}^3$', fontsize=17)
+ylabel = ax.set_ylabel(r'$\mathrm{ΔE, meV/atom}$', fontsize=17)
+ax.legend(loc='upper left', handles=legend_entry, fontsize=11)
+ax.grid(True, alpha=0.25)
+for spine in ax.spines.values():
     spine.set_linewidth(1.8)
-plt.subplots_adjust(bottom = 0.176)
-# plt.tight_layout()
+plt.subplots_adjust(bottom=0.186, left=0.275, right=0.745)
+ax.tick_params(axis='both', which='major', labelsize=12)
+ax.yaxis.set_label_coords(-0.172, 0.5)
+
+
+
+# --- Adjust y-axis title using a slider ---
+t = False
+if t == True:
+    # Get the initial coordinates of the y-axis label
+    init_coords = ax.yaxis.get_label().get_position()
+    
+    # Create a slider for adjusting the x-coordinate
+    slider_ax = plt.axes([0.15, 0.05, 0.65, 0.03])  # [left, bottom, width, height]
+    x_slider = Slider(slider_ax, 'Y-Label X', -1.5, 0.5, valinit=init_coords[0])
+
+
+    # Callback function to update the y-axis label's position
+    def update(val):
+        new_x = x_slider.val
+        # Set the new x coordinate while keeping the original y coordinate
+        ax.yaxis.set_label_coords(new_x, init_coords[1])
+        fig.canvas.draw_idle()
+        print(f"New Y-label position: x = {new_x:.3f}, y = {init_coords[1]:.3f}")
+
+
+    x_slider.on_changed(update)
 
 plt.show()
 
-
-if SAVEPDF == True:
+if SAVEPDF:
     plt.savefig('SrSnO_single_figure.pdf', format='pdf')
