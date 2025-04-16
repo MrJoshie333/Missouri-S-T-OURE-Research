@@ -1,0 +1,30 @@
+#!/bin/bash
+
+# Define connection
+REMOTE_USER=jmsch4
+REMOTE_HOST=mill.mst.edu
+REMOTE_BASE=/mnt/stor/ceph/physa/medvedeva/juliaem/ZTO/transfer/SnO/SrSnO/Sr10Sn90
+LOCAL_BASE=~/SrSnO_data  # Or any path on your local machine
+
+# List of densities you want to pull from
+DENSITIES=(
+  a13p4_d6p27
+   a13p8_d5p74
+   a14p2_d5p27
+   a14p6_d4p85
+   a15p0_d4p47
+   a15p4_d4p13
+   a15p8_d3p82
+)
+
+for dens in "${DENSITIES[@]}"; do
+  for run in {1..9}; do
+    REMOTE_FILE="$REMOTE_BASE/$dens/run$run/_quench_200_eq_300/_ECN_18/avAllConfigECN.dat"
+    LOCAL_DIR="$LOCAL_BASE/$dens/run$run"
+    
+    mkdir -p "$LOCAL_DIR"
+
+    echo "Copying from $REMOTE_FILE to $LOCAL_DIR"
+    scp "$REMOTE_USER@$REMOTE_HOST:$REMOTE_FILE" "$LOCAL_DIR/"
+  done
+done
