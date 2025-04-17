@@ -6,7 +6,6 @@ from utility import filenameToLatex
 # ===== Setup =====
 # Save the Figure as a PDF?
 SAVEPDF = False
-num_atoms = 69
 
 '''---------------------- Data And Plotting for SnO ----------------------'''
 
@@ -54,16 +53,16 @@ with open(file_name, 'r', encoding='utf-8') as f:
         i = float(i)
         density_list_Sn.append(i)
 
-    axs[0, 0].plot(density_list_Sn, ECN_Sn, label='Sn-O', color='red')
-    axs[1, 0].plot(density_list_Sn, ECN_time_Sn, label='Sn-O', color='red')
-    axs[0, 1].plot(density_list_Sn, L_ave_Sn, label='Sn-O', color='red')
-    axs[1, 1].plot(density_list_Sn, L_ave_time_Sn, label='Sn-O', color='red')
-    axs[0, 2].plot(density_list_Sn, Distortion_Sn, label='Sn-O', color='red')
-    axs[1, 2].plot(density_list_Sn, Distortion_time_Sn, label='Sn-O', color='red')
+    axs[0, 0].plot(density_list_Sn, ECN_Sn, label='Sn-O', color='coral')
+    axs[1, 0].plot(density_list_Sn, ECN_time_Sn, label='Sn-O', color='coral')
+    axs[0, 1].plot(density_list_Sn, L_ave_Sn, label='Sn-O', color='coral')
+    axs[1, 1].plot(density_list_Sn, L_ave_time_Sn, label='Sn-O', color='coral')
+    axs[0, 2].plot(density_list_Sn, Distortion_Sn, label='Sn-O', color='coral')
+    axs[1, 2].plot(density_list_Sn, Distortion_time_Sn, label='Sn-O', color='coral')
 
     iteration += 1
 
-
+#Sr:
 
 orig_density_Sr   = []
 runs_Sr           = []
@@ -103,52 +102,45 @@ with open("sr.txt", 'r', encoding='utf-8') as f:
         i = float(i)
         density_list_Sr.append(i)
 
-    axs[0, 0].plot(density_list_Sr, ECN_Sr, label='Sr-O', color='blue')
-    axs[1, 0].plot(density_list_Sr, ECN_time_Sr, label='Sr-O', color='blue')
-    axs[0, 1].plot(density_list_Sr, L_ave_Sr, label='Sr-O', color='blue')
-    axs[1, 1].plot(density_list_Sr, L_ave_time_Sr, label='Sr-O', color='blue')
-    axs[0, 2].plot(density_list_Sr, Distortion_Sr, label='Sr-O', color='blue')
-    axs[1, 2].plot(density_list_Sr, Distortion_time_Sr, label='Sr-O', color='blue')
+    axs[0, 0].plot(density_list_Sr, ECN_Sr, label='Sr-O', color='cornflowerblue')
+    axs[1, 0].plot(density_list_Sr, ECN_time_Sr, label='Sr-O', color='cornflowerblue')
+    axs[0, 1].plot(density_list_Sr, L_ave_Sr, label='Sr-O', color='cornflowerblue')
+    axs[1, 1].plot(density_list_Sr, L_ave_time_Sr, label='Sr-O', color='cornflowerblue')
+    axs[0, 2].plot(density_list_Sr, Distortion_Sr, label='Sr-O', color='cornflowerblue')
+    axs[1, 2].plot(density_list_Sr, Distortion_time_Sr, label='Sr-O', color='cornflowerblue')
 
     iteration += 1
 
-# axs[1, 0].set_xlabel(r'Density, g/$cm^3$', fontsize=18)
-# axs[1, 1].set_xlabel(r'Density, g/$cm^3$', fontsize=18)
-# axs[1, 2].set_xlabel(r'Density, g/$cm^3$', fontsize=18)
-#
-# axs[0, 0].set_ylabel("ECN", fontsize=18, labelpad=20)
-# axs[1, 0].set_ylabel("ECN Time Variance", fontsize=18, labelpad=20)
-# axs[0, 1].set_ylabel(r'L_Average, $\AA$', fontsize=18, labelpad=20)
-# axs[1, 1].set_ylabel("L_Average Time Variance", fontsize=18, labelpad=20)
-# axs[0, 2].set_ylabel(r'Distortion, $\AA^2$', fontsize=18, labelpad=20)
-# axs[1, 2].set_ylabel("Distortion Time Variance", fontsize=18, labelpad=20)
-#
-# plt.subplots_adjust(
-#     # left=0.1,
-#     # bottom=0.1,
-#     # right=0.9,
-#     # top=0.9,
-#     wspace=0.425,
-#     hspace=0.0)
-#
-# '''Sorting the labels in the legend'''
-# handles, labels = axs[0, 0].get_legend_handles_labels()
-# # print(labels)
-# handles = [handles[7], handles[0], handles[8], handles[1], handles[5], handles[3], handles[2], handles[6], handles[4]]
-# labels = [labels[7], labels[0], labels[8], labels[1], labels[5], labels[3], labels[2], labels[6], labels[4]]
-# # print(labels)
-#
-# axs[0, 1].legend(handles, labels, prop={'size': 16}, loc='upper center', bbox_to_anchor=(0.5, 1.32),
-#                  ncol=3, fancybox=True, shadow=True, fontsize='large')
-#
-# axs[1, 0].set_yticks(np.arange(0.05, 0.4, 0.1))
+axs[1, 0].set_xlabel(r'Density, g/$cm^3$', fontsize=18)
+axs[1, 1].set_xlabel(r'Density, g/$cm^3$', fontsize=18)
+axs[1, 2].set_xlabel(r'Density, g/$cm^3$', fontsize=18)
+
+axs[0, 0].set_ylabel("ECN", fontsize=18, labelpad=20)
+axs[1, 0].set_ylabel("ECN Time Variance", fontsize=18, labelpad=20)
+axs[0, 1].set_ylabel(r'L_Average, $\AA$', fontsize=18, labelpad=20)
+axs[1, 1].set_ylabel("L_Average Time Variance", fontsize=18, labelpad=20)
+axs[0, 2].set_ylabel(r'Distortion, $\AA^2$', fontsize=18, labelpad=20)
+axs[1, 2].set_ylabel("Distortion Time Variance", fontsize=18, labelpad=20)
+
+plt.subplots_adjust(
+    # left=0.1,
+    # bottom=0.1,
+    # right=0.9,
+    # top=0.9,
+    wspace=0.425,
+    hspace=0.0)
+
+axs[0, 2].legend(prop={'size': 16}, loc='upper center', bbox_to_anchor=(0.5, 1.2),
+                 ncol=3, fancybox=True, shadow=True, fontsize='large')
+axs[0,0].set_title(r'ECN, L_Average, and Distortion for Sn$_{62}$Sr$_7$O$_{69}$', pad=20 , fontsize=20)
+# # axs[1, 0].set_yticks(np.arange(0.05, 0.4, 0.1))
 # axs[0, 1].set_yticks(np.arange(1.90, 2.25, 0.07))
 # axs[1, 1].set_yticks(np.arange(0.0005, 0.004, 0.00075))
-#
-# for a in axs.flat:
-#     a.grid(True, alpha=0.25)
-#     a.tick_params(axis='x', labelsize=15)
-#     a.tick_params(axis='y', labelsize=15)
+
+for a in axs.flat:
+    a.grid(True, alpha=0.380)
+    a.tick_params(axis='x', labelsize=15)
+    a.tick_params(axis='y', labelsize=15)
 
 plt.show()
 if SAVEPDF == True:
