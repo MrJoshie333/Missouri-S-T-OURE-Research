@@ -1,0 +1,90 @@
+import os
+import numpy as np
+
+density_list = [
+    'a13p4_d6p27', 'a13p8_d5p74', 'a14p2_d5p27', 'a14p6_d4p85',
+    'a15p0_d4p47', 'a15p4_d4p13', 'a15p8_d3p82'
+]
+
+def compute_per_run_averages(folder):
+    metrics = [
+        'sn_ecn', 'sn_ecn_time',
+        'sn_L_ave', 'sn_L_ave_time',
+        'sn_Distortion', 'sn_Distortion_time',
+        'sr_ecn', 'sr_ecn_time',
+        'sr_L_ave', 'sr_L_ave_time',
+        'sr_Distortion', 'sr_Distortion_time',
+    ]
+    run_avgs = { m: [] for m in metrics }
+
+    for run in range(1, 10):
+        path = os.path.join(folder, f'run{run}', 'avAllConfigECN.dat')
+        with open(path) as f:
+            lines = f.readlines()
+
+        temp = { m: [] for m in metrics }
+        for line in lines:
+            p = line.split()
+            if p[0] == 'Sn':
+                temp['sn_ecn'].append(float(p[3]))
+                temp['sn_ecn_time'].append(float(p[4]))
+                temp['sn_L_ave'].append(float(p[5]))
+                temp['sn_L_ave_time'].append(float(p[6]))
+                temp['sn_Distortion'].append(float(p[7]))
+                temp['sn_Distortion_time'].append(float(p[8]))
+            else:
+                temp['sr_ecn'].append(float(p[3]))
+                temp['sr_ecn_time'].append(float(p[4]))
+                temp['sr_L_ave'].append(float(p[5]))
+                temp['sr_L_ave_time'].append(float(p[6]))
+                temp['sr_Distortion'].append(float(p[7]))
+                temp['sr_Distortion_time'].append(float(p[8]))
+
+        # per‑run mean
+        for m in metrics:
+            run_avgs[m].append(np.mean(temp[m]))
+
+    return run_avgs
+
+# compute for every density
+all_per_run = {
+    d: compute_per_run_averages(d)
+    for d in density_list
+}
+
+# now write two files
+with open("sn.txt", "w", encoding="utf-8") as f_sn, \
+     open("sr.txt", "w", encoding="utf-8") as f_sr:
+
+    # header (optional)
+    f_sn.write("Density Run Compound ECN ECN_time L_ave L_ave_time Distortion Dist_time\n")
+    f_sr.write("Density Run Compound ECN ECN_time L_ave L_ave_time Distortion Dist_time\n")
+
+    for density, per_run in all_per_run.items():
+        for run_idx in range(9):
+            r = run_idx + 1
+            # Sn line
+            sn_vals = [
+                per_run['sn_ecn'][run_idx],
+                per_run['sn_ecn_time'][run_idx],
+                per_run['sn_L_ave'][run_idx],
+                per_run['sn_L_ave_time'][run_idx],
+                per_run['sn_Distortion'][run_idx],
+                per_run['sn_Distortion_time'][run_idx],
+            ]
+            sn_line = f"{density} run{r} Sn " + " ".join(str(v) for v in sn_vals) + "\n"
+            f_sn.write(sn_line)
+
+            # Sr line
+            sr_vals = [
+                per_run['sr_ecn'][run_idx],
+                per_run['sr_ecn_time'][run_idx],
+                per_run['sr_L_ave'][run_idx],
+                per_run['sr_L_ave_time'][run_idx],
+                per_run['sr_Distortion'][run_idx],
+                per_run['sr_Distortion_time'][run_idx],
+            ]
+            sr_line = f"{density} run{r} Sr " + " ".join(str(v) for v in sr_vals) + "\n"
+            f_sr.write(sr_line)
+
+print("Wrote sn.txt and sr.txt")
