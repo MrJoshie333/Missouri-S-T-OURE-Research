@@ -19,33 +19,38 @@ for line in temp:
     print(run_num, config_num, ecn)
 
 #create matplotlib plot
-fig, ax = plt.subplots(1, 2, figsize=(12, 5))
-ax[0].plot(run_nums, ecns, 'o')
-ax[0].set_xlabel('Run Number', fontsize=12)
-ax[0].set_ylabel('ECN', fontsize=12)
-ax[0].set_title('ECN vs Run Number', fontsize=14)
+fig, ax = plt.subplots(figsize=(5, 5))
+ax.plot(run_nums, ecns, 'o')
+ax.set_xlabel('Run Number', fontsize=12)
+ax.set_ylabel('ECN', fontsize=12)
+ax.set_title(f'ECN vs Run Number, Ta$_2$Sn$_3$O$_8$', fontsize=14)
 
-# Add config numbers as text labels above each point
 for i, config in enumerate(config_nums):
-    ax[0].annotate(str(config), 
-                  (run_nums[i], ecns[i]),
-                  xytext=(0, 10), # 10 points vertical offset
-                  textcoords='offset points',
-                  ha='center') # horizontal alignment
+    # Default offset
+    offset = (0, 10)
 
+    # Special handling for a specific run number, for example:
+    if run_nums[i] == 6:
+        offset = (0, -15)  # move to the right and below the point
 
+    ax.annotate(str(config),
+                (run_nums[i], ecns[i]),
+                xytext=offset,
+                textcoords='offset points',
+                ha='center')
 
-ax[1].scatter(config_nums, ecns)
-ax[1].set_xlabel('Config Number', fontsize=12)
-ax[1].set_ylabel('ECN', fontsize=12)
-ax[1].set_title('ECN vs Config Number', fontsize=14)
-
-for i, runnum in enumerate(run_nums):
-    ax[1].annotate(str(runnum),
-                   (config_nums[i], ecns[i]),
-                   xytext=(0, 10),  # 10 points vertical offset
-                   textcoords='offset points',
-                   ha='center')  # horizontal alignment
-
+# ax[1].scatter(config_nums, ecns)
+# ax[1].set_xlabel('ID Number', fontsize=12)
+# ax[1].set_ylabel('ECN', fontsize=12)
+# ax[1].set_title('ECN vs ID Number, Ta2Sn3O8', fontsize=14)
+#
+# for i, runnum in enumerate(run_nums):
+#     ax[1].annotate(str(runnum),
+#                    (config_nums[i], ecns[i]),
+#                    xytext=(0, 10),  # 10 points vertical offset
+#                    textcoords='offset points',
+#                    ha='center')  # horizontal alignment
+#adjust subplot
+fig.subplots_adjust(left=0.26, right=0.72)
 plt.tight_layout()
 plt.show()
