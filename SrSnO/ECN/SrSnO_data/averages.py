@@ -1,10 +1,14 @@
 import os
 import numpy as np
+#10/90:
 
-density_list = [
-    'a13p4_d6p27', 'a13p8_d5p74', 'a14p2_d5p27', 'a14p6_d4p85',
-    'a15p0_d4p47', 'a15p4_d4p13', 'a15p8_d3p82'
-]
+# density_list = [
+#     '10_90/a13p4_d6p27', '10_90/a13p8_d5p74', '10_90/a14p2_d5p27', '10_90/a14p6_d4p85',
+#     '10_90/a15p0_d4p47', '10_90/a15p4_d4p13', '10_90/a15p8_d3p82'
+# ]
+
+#30/70:
+density_list = ['30_70/a15p0_d4p25', '30_70/a14p212_d5p0']
 
 def compute_overall_for_density(folder):
     # the six numeric fields for Sn and Sr
@@ -53,11 +57,11 @@ for density in density_list:
     results_sr.append(sr_line)
 
 # write files
-with open("sn.txt", "w", encoding="utf-8") as f:
+with open("30_70 txt/sn.txt", "w", encoding="utf-8") as f:
     for line in results_sn:
         f.write(line + "\n")
 
-with open("sr.txt", "w", encoding="utf-8") as f:
+with open("30_70 txt/sr.txt", "w", encoding="utf-8") as f:
     for line in results_sr:
         f.write(line + "\n")
 
