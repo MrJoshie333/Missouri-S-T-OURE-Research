@@ -52,12 +52,12 @@ for density in densities:
     mean_vals_largest_void.append(np.mean(largest_void))
 
 # scatter raw points
-ax[0].scatter(all_x_total_void, all_y_total_void, alpha=1,)
+ax[0].scatter(all_x_total_void, all_y_total_void, marker='^', alpha=1,)
 
 # plot the average trend
-ax[0].plot(density_vals_total, mean_vals_total, '-o', label='Total Void')
+ax[0].plot(density_vals_total, mean_vals_total, '-^',  label='Total Void')
 
-ax[0].scatter(all_x_largest_void, all_y_largest_void, alpha=1,)
+ax[0].scatter(all_x_largest_void, all_y_largest_void, alpha=1)
 
 # plot the average trend
 ax[0].plot(density_vals_largest_void, mean_vals_largest_void, '-o', label='Largest Void')
@@ -119,23 +119,23 @@ for density in densities:
     mean_vals_largest_void.append(np.mean(largest_void))
 
 # scatter raw points
-ax[1].scatter(all_x_total_void, all_y_total_void, alpha=1,)
+ax[1].scatter(all_x_total_void, all_y_total_void, marker='^', alpha=1,)
 
 # plot the average trend
-ax[1].plot(density_vals_total, mean_vals_total, '-o', label='Total Void')
+ax[1].plot(density_vals_total, mean_vals_total, '-^', label='Total Void')
 
-ax[1].scatter(all_x_largest_void, all_y_largest_void, alpha=1,)
+ax[1].scatter(all_x_largest_void, all_y_largest_void, alpha=0.5)
 
 # plot the average trend
-ax[1].plot(density_vals_largest_void, mean_vals_largest_void, '-o', label='Largest Void')
+ax[1].plot(density_vals_largest_void, mean_vals_largest_void, '-o', label='Largest Void', alpha=0.5)
 
 ax[1].set_xlabel(r'Density, g/cm$^3$', fontsize=16)
 # ax[1].set_ylabel(r'Void Volume, $\AA^3$')
 ax[1].set_title(r'Ta$_2$Sn$_3$O$_8$', fontsize=22)
 ax[1].legend()
-ax[0].legend(loc='upper left')
+ax[0].legend(loc='upper right')
 
-ax[1].legend(loc='upper left')
+ax[1].legend(loc='upper right')
 
 #grid
 ax[1].grid(True, alpha=0.25)
@@ -154,7 +154,7 @@ for ax in ax.flat:
         spine.set_edgecolor('black')
         spine.set_linewidth(1.75)
 
-plt.subplots_adjust(wspace=0.0, left = 0.198, right = 0.645)
+plt.subplots_adjust(wspace=0.0, left = 0.198, right = 0.675, bottom=0.413)
 
 #if horizontal lines:
 
