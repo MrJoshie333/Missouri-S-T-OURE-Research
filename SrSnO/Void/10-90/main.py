@@ -52,15 +52,15 @@ for density in densities:
     mean_vals_largest_void.append(np.mean(largest_void))
 
 # scatter raw points
-ax[0].scatter(all_x_total_void, all_y_total_void, marker='^', alpha=1,)
+ax[0].scatter([x - 0.055 for x in all_x_total_void], all_y_total_void, marker='^', alpha=1,)
 
 # plot the average trend
-ax[0].plot(density_vals_total, mean_vals_total, '-^',  label='Total Void')
+ax[0].plot(density_vals_total, mean_vals_total,  label='Total Void', alpha=0.6)
 
-ax[0].scatter(all_x_largest_void, all_y_largest_void, alpha=0.5)
+ax[0].scatter([x+0.055 for x in all_x_largest_void], all_y_largest_void, alpha=1)
 
 # plot the average trend
-ax[0].plot(density_vals_largest_void, mean_vals_largest_void, '-o', label='Largest Void', alpha=0.5)
+ax[0].plot(density_vals_largest_void, mean_vals_largest_void, label='Largest Void', alpha=0.6)
 
 ax[0].set_xlabel(r'Density, g/cm$^3$', fontsize=16)
 ax[0].set_ylabel(r'Void Volume, $\AA^3$', fontsize=16)
@@ -119,15 +119,15 @@ for density in densities:
     mean_vals_largest_void.append(np.mean(largest_void))
 
 # scatter raw points
-ax[1].scatter(all_x_total_void, all_y_total_void, marker='^', alpha=1,)
+ax[1].scatter([x - 0.075 for x in all_x_total_void], all_y_total_void, marker='^', alpha=1,)
 
 # plot the average trend
-ax[1].plot(density_vals_total, mean_vals_total, '-^', label='Total Void')
+ax[1].plot(density_vals_total, mean_vals_total, label='Total Void', alpha=0.6)
 
-ax[1].scatter(all_x_largest_void, all_y_largest_void, alpha=0.5)
+ax[1].scatter([x+0.075 for x in all_x_largest_void], all_y_largest_void, alpha=1)
 
 # plot the average trend
-ax[1].plot(density_vals_largest_void, mean_vals_largest_void, '-o', label='Largest Void', alpha=0.5)
+ax[1].plot(density_vals_largest_void, mean_vals_largest_void, label='Largest Void', alpha=0.6)
 
 ax[1].set_xlabel(r'Density, g/cm$^3$', fontsize=16)
 # ax[1].set_ylabel(r'Void Volume, $\AA^3$')
